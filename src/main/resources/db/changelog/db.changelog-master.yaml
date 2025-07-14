@@ -124,3 +124,5 @@ databaseChangeLog:
             constraintName: fk_phone_user
             referencedTableName: users
             referencedColumnNames: id
+  - include:
+      file: db/changelog/db.changelog-changeDateOfBirthToDate.yaml

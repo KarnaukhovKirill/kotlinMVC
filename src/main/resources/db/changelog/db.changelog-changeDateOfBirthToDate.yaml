@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: kirill
+      preConditions:
+        - onFail: MARK_RAN
+        - columnExists:
+            tableName: users
+            columnName: date_of_birth
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: date_of_birth_tmp
+                  type: DATE
+
+        - sql:
+            comment: Копируем значения из VARCHAR в DATE
+            sql: UPDATE users SET date_of_birth_tmp = TO_DATE(date_of_birth, 'YYYY-MM-DD');
+
+        - dropColumn:
+            tableName: users
+            columnName: date_of_birth
+
+        - renameColumn:
+            tableName: users
+            oldColumnName: date_of_birth_tmp
+            newColumnName: date_of_birth
+            columnDataType: DATE
